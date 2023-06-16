@@ -45,26 +45,42 @@ class FormMain(Form):
         self.TabItemInsights = None
         self.LoadProps(os.path.join(os.path.dirname(os.path.abspath(__file__)), "uMain.pyfmx"))
 
+    
     def BtnFetchAPODClick(self, Sender):
+        """
+        Button click event handler to fetch the Astronomy Picture of the Day (APOD) from NASA's API.
+        Updates the GUI with the APOD date, title, explanation, and displays the APOD image.
+
+        Args:
+            self: The reference to the object that invokes this method.
+            Sender: The object that triggers the button click event.
+
+        Returns:
+            None
+
+        """
+        # Send a request to NASA's API to fetch APOD data
         response = requests.get('https://api.nasa.gov/planetary/apod?api_key=API_ACCESS_KEY')
         data = response.json()
 
+        # Update GUI labels with APOD information
         self.LblAPODDate.Text = data['date']
         self.LblAPODTitle.Text = data['title']
         self.LblAPODExplanation.Text = data['explanation'][:500]
 
-        # check if the URL is a video or an image
+        # Check if the APOD URL is a video or an image
         url = data['url']
         if 'youtube' in url or 'vimeo' in url or 'youtu.be' in url:
-            # if it's a video, fetch the thumbnail
+            # If it's a video, fetch the thumbnail URL
             img_url = self._get_thumbs(url)
         else:
             img_url = url
 
-        # fetch the image
+        # Fetch and save the APOD image
         urllib.request.urlretrieve(img_url, 'apod.jpg')
 
-        # load the image
+        # Load the image into the GUI
         self.Image1.Bitmap.LoadFromFile('apod.jpg')
 
+        # Remove the temporarily saved image file
         os.remove('apod.jpg')
