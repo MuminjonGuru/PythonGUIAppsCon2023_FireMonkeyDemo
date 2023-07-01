@@ -10,6 +10,5 @@ pip install delphifmx
 
 ![](app_in_action.png)
 
-```
+
 ![Official NASA APOD API Repo](https://github.com/nasa/apod-api)
-```
