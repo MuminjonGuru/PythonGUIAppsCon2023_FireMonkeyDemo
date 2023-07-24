@@ -4,6 +4,7 @@ import urllib.request
 import requests
 from delphifmx import *
 
+# Check the full utility script if you need more functions: https://github.com/nasa/apod-api/blob/master/apod/utility.py
 # Function to get video thumbnails
 def _get_thumbs(self, data):
     if "youtube" in data or "youtu.be" in data:
